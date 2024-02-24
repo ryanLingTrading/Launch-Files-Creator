@@ -1,0 +1,34 @@
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: Index
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: index.multiple.{exchangeType}.multiple.public.{currency1}.{effectiveCurrencies2}.delta.{clientName}-mm
+  namespace: global
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/index
+    imageTag: v1.15.1
+  settings:
+    customName: {clientName}-mm
+    exchange: multiple
+    exchangeType: {exchangeType}
+    protocol: multiple
+    authType: public
+    marketData: delta
+    currency1: {currency1}
+    currency2: {effectiveCurrencies2} ## assumed USD
+    components: [] ## a list of private trades, inc dex
+    indexSettings:
+      deltaCurrency: {deltaCurrency}
+      sourceFilters:
+      - market-making
+      - hedging
+      - unmapped
+      - flowdeskAPI
+      - brokerage
+    minPeriod: 0
+    minVariationThreshold: 0
+    disableExpiry: true

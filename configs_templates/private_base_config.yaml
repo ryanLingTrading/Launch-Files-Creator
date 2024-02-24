@@ -1,0 +1,27 @@
+# aggregation_base_config.yaml
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: Aggregation
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: aggregation.{exchange}.{exchangeType}.{exchangeProtocol}.private.{currency1}.{currency2}.{marketData}.{clientName}.{accountID}
+  namespace: {clientName} # if public then should be global
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/aggregation
+    imageTag: v2.188.4
+    injectorImageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/gcp-secretmanager-apikeys-injector
+    injectorImageTag: v1.0.1
+  settings:
+    clientName: {clientName} # e.g. stader
+    accountID: {accountID} # e.g. okex-spot-0
+    exchange: {exchange} # e.g. okex
+    exchangeType: {exchangeType} # spot, futures, options
+    protocol: {exchangeProtocol} # rest, ws, fix(?)
+    authType: private
+    marketData: {marketData} # balance, orderbook, trades(specical case)
+    currency1: {currency1}
+    currency2: {currency2}
+    period: {period} # in private agg this is used for periodic rest call on top of ws for missing data 

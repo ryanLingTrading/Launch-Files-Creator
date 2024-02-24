@@ -1,0 +1,47 @@
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: Index
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: index.multiple.spot.multiple.public.{currency1}.{effectiveCurrency2}.realizedvolatility.volatilityfactor
+  namespace: global
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/index
+    imageTag: v1.15.1
+  settings:
+    customName: volatilityfactor
+    exchange: multiple
+    exchangeType: spot
+    protocol: multiple
+    authType: public
+    marketData: realizedvolatility
+    currency1: {currency1}
+    currency2: {effectiveCurrency2}
+    components:
+    - basket.multiple.spot.multiple.public.{currency1}.{effectiveCurrency2}.asia.global
+    indexSettings:
+      periods:
+      - 30000
+      - 60000
+      - 300000
+      - 600000
+      - 1200000
+      - 3600000
+      weights:
+      - 2
+      - 3
+      - 4
+      - 3
+      - 2
+      - 1
+      annualizationType: discrete
+      outputFormat: volatilityfactor
+      minValue: 1
+      maxValue: 60
+      baseValue: 3.5
+    minPeriod: 5000
+    minVariationThreshold: 0.1
+    disableExpiry: true

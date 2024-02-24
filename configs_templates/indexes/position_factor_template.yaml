@@ -1,0 +1,30 @@
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: Index
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: index.multiple.{exchangeType}.ws.private.{currency1}.{effectiveCurrencies2}.basket.position-factor-mm
+  namespace: global
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/index
+    imageTag: v1.15.1
+  settings:
+    customName: position-factor-mm
+    exchange: multiple
+    exchangeType: {exchangeType}
+    protocol: ws
+    authType: private
+    marketData: basket
+    currency1: {currency1}
+    currency2: {effectiveCurrencies2}
+    components:
+    - {deltaIndexPrefix}
+    indexSettings:
+      formula: min(max((a)/{denominator},-{posfLimit}),{posfLimit})
+    dataComponent: mid
+    minPeriod: 1000
+    minVariationThreshold: 0.01
+    disableExpiry: true

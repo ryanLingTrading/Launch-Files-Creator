@@ -1,0 +1,39 @@
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: Volume
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: volume.{exchange}.{exchangeType}.{currency1}.{currency2}.{clientName}.{accountID}
+  namespace: {clientName}
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/volume
+    imageTag: v3.4.0
+  settings:
+    accountID: {accountID}
+    authType: private
+    clientName: {clientName}
+    currency1: {currency1}
+    currency2: {currency2}
+    dynamicSettings:
+      V0: 3800
+      baseProbabilityThreshold: 0.0015
+      digitsPrice: 5
+      digitsVolume: 2
+      directionalityFactor: 0.65
+      minStepVolume: 0
+      minTradeAmount: 200
+      preventSpreadCrossing: true
+      priceNoiseRange: 0.005
+      priceStep: 100
+      priceVolatilityFactor: 1
+      pushToExecutor: false
+      serviceOn: false
+    exchange: {exchange}
+    exchangeType: {exchangeType}
+    indexChannels:
+      indexPrice: {usdtIndex}
+      tickPublicOrderbook: {tickPublicOrderbook}
+    protocol: {exchangeProtocol}

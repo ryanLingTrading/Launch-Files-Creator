@@ -1,0 +1,29 @@
+apiVersion: microservice.flowdesk.co/v1alpha1
+kind: BasketIndex
+metadata:
+  labels:
+    app.kubernetes.io/managed-by: flux
+    app.kubernetes.io/created-by: flux
+  name: index.multiple.{exchangeType}.multiple.public.{currency1}.{effectiveCurrencies2}.basket.asia.global
+  namespace: global
+spec:
+  deploymentSpec:
+    projectId: infrastructure-prod-92821
+    imageName: asia-northeast1-docker.pkg.dev/infrastructure-prod-92821/main-asia/flowdeskmarkets/basket-index
+    imageTag: v1.9.0
+    nodeAffinity:
+    - workload-performance
+  settings:
+    customName: global
+    region: asia
+    exchange: multiple
+    exchangeType: {exchangeType}
+    protocol: multiple
+    authType: public
+    marketData: basket
+    currency1: {currency1}
+    currency2: {effectiveCurrencies2}
+    components: []
+    indexSettings:
+      formula: plcholder
+    minVariationThreshold: 0.0001
